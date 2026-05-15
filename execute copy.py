@@ -29,6 +29,7 @@ def cadastrar(): # função executada quando clicar no botão cadastrar
     int(c.Win32_ComputerSystem()[0].TotalPhysicalMemory) / (1024**3)
 )
     arquitetura_so = c.Win32_OperatingSystem()[0].OSArchitecture # versão 32 ou 64bits, coloca esse zero no fim pq deixa menos feio nas infos
+   
     arquitetura_pc = c.Win32_Processor()[0].AddressWidth  # arquitetura do hardware/processador
    
     serial_bios = c.Win32_BIOS()[0].SerialNumber # serial da BIOS da máquina
