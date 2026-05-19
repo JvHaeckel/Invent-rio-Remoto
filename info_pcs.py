@@ -2,7 +2,7 @@ import customtkinter as ctk
 from tkinter import messagebox
 import socket                 # é usado para rede/comunicação, pegar o nome do computador na rede
 import platform               # pega informações do sistema operacional
-import wmi                    # SIgnifica Windows Management Instrumentation - API oficial do Windows para administração (mais confiável)
+import wmi                    # Significa Windows Management Instrumentation - API oficial do Windows para administração (mais confiável)
 import requests               # requisição para externo ness
 
 ctk.set_appearance_mode("dark")  # define o tema escuro da interface
