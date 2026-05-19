@@ -11,9 +11,9 @@ ctk.set_default_color_theme("blue") # define a cor padrão dos componentes
 
 def cadastrar(): # função executada quando clicar no botão cadastrar
 
-    nome_usuario = nome.get() # pega o nome digitado no campo nome
-    sobrenome_usuario = sobrenome.get() # pega o sobrenome digitado
-    setor_usuario = setor.get()    # pega o setor digitado
+    nome_usuario = nome.get().upper() # pega o nome digitado no campo nome
+    sobrenome_usuario = sobrenome.get().upper() # pega o sobrenome digitado
+    setor_usuario = setor.get().upper()    # pega o setor digitado
     
     hostname = socket.gethostname()  # pega nome da máquina no Windows na rede
     sistema = platform.system()      # pega nome do sistema
@@ -90,7 +90,7 @@ nome = ctk.CTkEntry(  # cria o campo de entrada do nome
     placeholder_text="Nome",
     width=200,
     validate = "key",                              # validar enquanto digita
-    validatecommand = (validar_texto, "%P")        # qual função será usada
+    validatecommand = (validacao, "%P")        # qual função será usada
 )
 nome.pack(pady=8) # posiciona o campo nome
 
@@ -99,7 +99,7 @@ sobrenome = ctk.CTkEntry( # cria o campo de entrada do sobrenome
     placeholder_text="Sobrenome",
     width=200,
     validate = "key",
-    validatecommand = (validar_texto,"%P")
+    validatecommand = (validacao,"%P")
 )
 sobrenome.pack(pady=8) # posiciona o campo sobrenome
 
@@ -108,7 +108,7 @@ setor = ctk.CTkEntry( # cria o campo de entrada do setor
     placeholder_text="Setor",
     width=200,
     validate = "key",
-    validatecommand = (validar_texto,"%P")
+    validatecommand = (validacao,"%P")
 )
 setor.pack(pady=8) # posiciona o campo setor
 
