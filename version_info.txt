@@ -1,0 +1,39 @@
+Com esse arquivo: 
+
+o Windows reconhece como software identificado
+reduz heurística suspeita
+SmartScreen melhora reputação mais rápido
+
+Assim ele deixca de parecer um arquivo genérico que não possui fabricante ou identidade. 
+
+VSVersionInfo(
+  ffi=FixedFileInfo(
+    filevers=(1,0,0,0),
+    prodvers=(1,0,0,0),
+    mask=0x3f,
+    flags=0x0,
+    OS=0x40004,
+    fileType=0x1,
+    subtype=0x0,
+    date=(0, 0)
+  ),
+  kids=[
+    StringFileInfo([
+      StringTable(
+        '040904B0',
+        [
+          StringStruct('CompanyName', 'Rodotur'),
+          StringStruct('FileDescription', 'Inventario de computadores da TI'),
+          StringStruct('FileVersion', '1.0.0'),
+          StringStruct('InternalName', 'RodoturInventario'),
+          StringStruct('OriginalFilename', 'RodoturInventario.exe'),
+          StringStruct('ProductName', 'Rodotur Inventario TI'),
+          StringStruct('ProductVersion', '1.0.0')
+        ]
+      )
+    ]),
+    VarFileInfo([
+      VarStruct('Translation', [1033, 1200])
+    ])
+  ]
+)
