@@ -2,7 +2,7 @@
 
 
 a = Analysis(
-    ['info_pcs.py'],
+    ['info_pcs2.py'],
     pathex=[],
     binaries=[],
     datas=[],
