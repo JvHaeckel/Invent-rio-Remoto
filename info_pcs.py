@@ -1,3 +1,6 @@
+# Código oficial do executável
+
+
 import customtkinter as ctk
 from tkinter import messagebox
 import socket                 # é usado para rede/comunicação, pegar o nome do computador na rede
