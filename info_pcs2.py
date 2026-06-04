@@ -32,6 +32,15 @@ def cadastrar(): # função executada quando clicar no botão cadastrar
     processador = c.Win32_Processor()[0].Name    # pega o processador
     placa_video = c.Win32_VideoController()[0].Name      # pega a placa de video
 
+    disco = c.Win32_DiskDrive()[0]
+    modelo_disco = disco.Model.upper()
+    if "SSD" in modelo_disco:
+        tipo_disco = "SSD"
+    else:
+        tipo_disco = "HD"
+
+    tamanho_disco = round(int(disco.Size)) / (1024**3)
+
     cores = c.Win32_Processor()[0].NumberOfCores
     threads = c.Win32_Processor()[0].NumberOfLogicalProcessors
 
@@ -59,6 +68,9 @@ def cadastrar(): # função executada quando clicar no botão cadastrar
         "windows_version": windows_version,
         "processador": processador,
         "ram": ram,
+        "tipo_disco": tipo_disco,
+        "modelo_disco": modelo_disco,
+        "tamanho_disco": tamanho_disco,
         "placa_video": placa_video,
         "cores": cores,
         "threads": threads,
