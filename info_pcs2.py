@@ -1,4 +1,4 @@
-# Código de TESTE do executável
+# Código de TESTE do executável aqui eu faço as alterações e testo para depois enviar ao info_pcs
 
 
 import customtkinter as ctk
@@ -37,11 +37,6 @@ def cadastrar(): # função executada quando clicar no botão cadastrar
 
     disco = c.Win32_DiskDrive()[0]
     modelo_disco = disco.Model.upper()
-    if "SSD" in modelo_disco:
-        tipo_disco = "SSD"
-    else:
-        tipo_disco = "HD"
-
     tamanho_disco = round(int(disco.Size) / (1024**3))
 
     cores = c.Win32_Processor()[0].NumberOfCores
