@@ -1,4 +1,4 @@
-# Código de TESTE do executável aqui eu faço as alterações e testo para depois enviar ao info_pcs
+# Código de TESTE do executável aqui eu faço as alterações e testo para depois enviar ao info_pcs ( O executável foi feito em cima do inf_pcs2)
 
 
 import customtkinter as ctk
@@ -14,93 +14,100 @@ ctk.set_default_color_theme("blue") # define a cor padrão dos componentes
 
 def cadastrar(): # função executada quando clicar no botão cadastrar
 
-    nome_usuario = nome.get().upper().strip()           # pega o nome digitado no campo nome
-    sobrenome_usuario = sobrenome.get().upper().strip() # pega o sobrenome digitado
-    setor_usuario = setor.get().upper().strip()         # pega o setor digitado
+    try:
+
+
+        nome_usuario = nome.get().upper().strip()           # pega o nome digitado no campo nome
+        sobrenome_usuario = sobrenome.get().upper().strip() # pega o sobrenome digitado
+        setor_usuario = setor.get().upper().strip()         # pega o setor digitado
+        
+        if  nome_usuario =="" or sobrenome_usuario =="" or setor_usuario =="": 
+            messagebox.showerror(
+                "Erro",
+                "Preencha todos os campos"
+            )
+            return
+
+        hostname = socket.gethostname()  # pega nome da máquina no Windows na rede
+        sistema = platform.system()      # pega nome do sistema
+
+        c = wmi.WMI()    # abrir conexão com o inventário interno do Windows
+
+        windows_version = c.Win32_OperatingSystem()[0].Version    # pega SO TÉCNICO (colocamos zero pq retorna uma lista com apenas 1 item e queremos o primeiro)
+        windows = c.Win32_OperatingSystem()[0].Caption            # pega nome do Windows amigável
+        processador = c.Win32_Processor()[0].Name    # pega o processador
+        placa_video = c.Win32_VideoController()[0].Name      # pega a placa de video
+
+        disco = c.Win32_DiskDrive()[0]
+        modelo_disco = disco.Model.upper()
+        tamanho_disco = round(int(disco.Size) / (1024**3))
+
+        cores = c.Win32_Processor()[0].NumberOfCores
+        threads = c.Win32_Processor()[0].NumberOfLogicalProcessors
+
+        ram = round( # pega a memória RAM total em bytes e converte para GB
+        int(c.Win32_ComputerSystem()[0].TotalPhysicalMemory) / (1024**3)
+    )
+        arquitetura_so = c.Win32_OperatingSystem()[0].OSArchitecture # versão 32 ou 64bits, coloca esse zero no fim pq deixa menos feio nas infos
+        arquitetura_pc = c.Win32_Processor()[0].AddressWidth  # arquitetura do hardware/processador
     
-    if  nome_usuario =="" or sobrenome_usuario =="" or setor_usuario =="": 
-        messagebox.showerror(
-            "Erro",
-            "Preencha todos os campos"
-        )
-        return
+        serial_bios = c.Win32_BIOS()[0].SerialNumber # serial da BIOS da máquina
+        serial_chassi = c.Win32_SystemEnclosure()[0].SerialNumber # serial do Hardware
+        
+        modelo = c.Win32_ComputerSystem()[0].Model # pega o modelo do computador/notebook
+        fabricante = c.Win32_ComputerSystem()[0].Manufacturer # COLOCAR??
+        
+        
+        
+        dados = {
+            "nome": nome_usuario,
+            "sobrenome": sobrenome_usuario,
+            "setor": setor_usuario,
+            "hostname": hostname,
+            "sistema": sistema,
+            "windows": windows,
+            "windows_version": windows_version,
+            "processador": processador,
+            "ram": ram,
 
-    hostname = socket.gethostname()  # pega nome da máquina no Windows na rede
-    sistema = platform.system()      # pega nome do sistema
+            "modelo_disco": modelo_disco,
+            "tamanho_disco": tamanho_disco,
 
-    c = wmi.WMI()    # abrir conexão com o inventário interno do Windows
+            "placa_video": placa_video,
+            "cores": cores,
+            "threads": threads,
+            "arquitetura_so": arquitetura_so,
+            "arquitetura_pc": arquitetura_pc,
+            "serial_chassi": serial_chassi,
+            "serial_bios": serial_bios,
+            "modelo": modelo,
+            "fabricante": fabricante
+        }
 
-    windows_version = c.Win32_OperatingSystem()[0].Version    # pega SO TÉCNICO (colocamos zero pq retorna uma lista com apenas 1 item e queremos o primeiro)
-    windows = c.Win32_OperatingSystem()[0].Caption            # pega nome do Windows amigável
-    processador = c.Win32_Processor()[0].Name    # pega o processador
-    placa_video = c.Win32_VideoController()[0].Name      # pega a placa de video
+        url = "https://script.google.com/macros/s/AKfycbzzuobumMCF4vIUGTpTmuQKhOoq0ZyhUu3sulEQUR5tMBSvJ9Cm5zdPzK6hJg7wl_sS-w/exec"
+        
+        
 
-    disco = c.Win32_DiskDrive()[0]
-    modelo_disco = disco.Model.upper()
-    tamanho_disco = round(int(disco.Size) / (1024**3))
+        resposta = requests.post(url, json=dados, timeout = 10)
 
-    cores = c.Win32_Processor()[0].NumberOfCores
-    threads = c.Win32_Processor()[0].NumberOfLogicalProcessors
+        if resposta.status_code == 200:
+            messagebox.showinfo(
+                "Sucesso",
+                "Computador cadastrado com sucesso!"
+            )
+            janela.destroy() # Fecha a janela 
 
-    ram = round( # pega a memória RAM total em bytes e converte para GB
-    int(c.Win32_ComputerSystem()[0].TotalPhysicalMemory) / (1024**3)
-)
-    arquitetura_so = c.Win32_OperatingSystem()[0].OSArchitecture # versão 32 ou 64bits, coloca esse zero no fim pq deixa menos feio nas infos
-    arquitetura_pc = c.Win32_Processor()[0].AddressWidth  # arquitetura do hardware/processador
-   
-    serial_bios = c.Win32_BIOS()[0].SerialNumber # serial da BIOS da máquina
-    serial_chassi = c.Win32_SystemEnclosure()[0].SerialNumber # serial do Hardware
-    
-    modelo = c.Win32_ComputerSystem()[0].Model # pega o modelo do computador/notebook
-    fabricante = c.Win32_ComputerSystem()[0].Manufacturer # COLOCAR??
-    
-    
-    
-    dados = {
-        "nome": nome_usuario,
-        "sobrenome": sobrenome_usuario,
-        "setor": setor_usuario,
-        "hostname": hostname,
-        "sistema": sistema,
-        "windows": windows,
-        "windows_version": windows_version,
-        "processador": processador,
-        "ram": ram,
+        else:
+            messagebox.showerror(
+                "Erro",
+                f"Falha ao enviar!\nCódigo: {resposta.status_code}\n{resposta.text}"
+            )
+    except Exception as erro:
 
-        "tipo_disco": tipo_disco,
-        "modelo_disco": modelo_disco,
-        "tamanho_disco": tamanho_disco,
-
-        "placa_video": placa_video,
-        "cores": cores,
-        "threads": threads,
-        "arquitetura_so": arquitetura_so,
-        "arquitetura_pc": arquitetura_pc,
-        "serial_chassi": serial_chassi,
-        "serial_bios": serial_bios,
-        "modelo": modelo,
-        "fabricante": fabricante
-    }
-
-    url = "https://script.google.com/macros/s/AKfycbzzuobumMCF4vIUGTpTmuQKhOoq0ZyhUu3sulEQUR5tMBSvJ9Cm5zdPzK6hJg7wl_sS-w/exec"
-    
-    
-
-    resposta = requests.post(url, json=dados, timeout = 10)
-
-    if resposta.status_code == 200:
-        messagebox.showinfo(
-            "Sucesso",
-            "Computador cadastrado com sucesso!"
-        )
-        janela.destroy() # Fecha a janela 
-
-    else:
-        messagebox.showerror(
-            "Erro",
-            f"Falha ao enviar!\nCódigo: {resposta.status_code}\n{resposta.text}"
-        )
-
+            messagebox.showerror(
+                "Erro inesperado",
+                str(erro)
+            )
 
 def validar_texto(texto):
     for caractere in texto:
