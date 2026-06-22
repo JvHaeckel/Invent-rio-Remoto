@@ -7,6 +7,7 @@ import socket                 # é usado para rede/comunicação, pegar o nome d
 import platform               # pega informações do sistema operacional
 import wmi                    # SIgnifica Windows Management Instrumentation - API oficial do Windows para administração (mais confiável)
 import requests               # requisição para externo ness
+import traceback
 
 ctk.set_appearance_mode("dark")  # define o tema escuro da interface
 ctk.set_default_color_theme("blue") # define a cor padrão dos componentes
@@ -48,9 +49,12 @@ def cadastrar(): # função executada quando clicar no botão cadastrar
         cores = c.Win32_Processor()[0].NumberOfCores
         threads = c.Win32_Processor()[0].NumberOfLogicalProcessors
 
-        ram = round( # pega a memória RAM total em bytes e converte para GB
-        int(c.Win32_ComputerSystem()[0].TotalPhysicalMemory) / (1024**3)
-    )
+        memoria = c.Win32_ComputerSystem()[0].TotalPhysicalMemory
+        if memoria:
+            ram = round(int(memoria) / (1024**3))
+        else:
+            ram = ""
+            
         arquitetura_so = c.Win32_OperatingSystem()[0].OSArchitecture # versão 32 ou 64bits, coloca esse zero no fim pq deixa menos feio nas infos
         arquitetura_pc = c.Win32_Processor()[0].AddressWidth  # arquitetura do hardware/processador
     
@@ -106,12 +110,12 @@ def cadastrar(): # função executada quando clicar no botão cadastrar
                 "Erro",
                 f"Falha ao enviar!\nCódigo: {resposta.status_code}\n{resposta.text}"
             )
-    except Exception as erro:
+    except Exception:
 
-            messagebox.showerror(
-                "Erro inesperado",
-                str(erro)
-            )
+        messagebox.showerror(
+            "Erro inesperado",
+            traceback.format_exc()
+        )
 
 def validar_texto(texto):
     for caractere in texto:
