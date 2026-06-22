@@ -40,7 +40,10 @@ def cadastrar(): # função executada quando clicar no botão cadastrar
 
         disco = c.Win32_DiskDrive()[0]
         modelo_disco = disco.Model.upper()
-        tamanho_disco = round(int(disco.Size) / (1024**3))
+        if disco.Size:                                            # tive que fazer esse tratamento pq ao tentar converter e não conseguir ele travava o Executável
+            tamanho_disco = round(int(disco.Size) / (1024**3)) 
+        else:
+            tamanho_disco = ""
 
         cores = c.Win32_Processor()[0].NumberOfCores
         threads = c.Win32_Processor()[0].NumberOfLogicalProcessors
@@ -85,6 +88,7 @@ def cadastrar(): # função executada quando clicar no botão cadastrar
         }
 
         url = "https://script.google.com/macros/s/AKfycbzzuobumMCF4vIUGTpTmuQKhOoq0ZyhUu3sulEQUR5tMBSvJ9Cm5zdPzK6hJg7wl_sS-w/exec"
+               
         
         
 
