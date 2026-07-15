@@ -96,7 +96,7 @@ def cadastrar(): # função executada quando clicar no botão cadastrar
         
         
 
-        resposta = requests.post(url, json=dados, timeout = 10)
+        resposta = requests.post(url, json=dados, timeout = 45)
 
         if resposta.status_code == 200:
             messagebox.showinfo(
